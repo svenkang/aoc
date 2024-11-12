@@ -20,13 +20,12 @@ func main() {
 		si, _ := strconv.ParseInt(s, 10, 64)
 		seedsInt[i] = int(si)
 	}
-	fmt.Println(seeds)
 
 	sections := strings.Split(str, ":")[2:]
-	maps := make([]map[int]int, len(sections))
-	for i, s := range sections {
+	sectionMappings := [][][]int{}
+	for _, s := range sections {
 		ls := strings.Split(s, "\n")
-		nwMap := map[int]int{}
+		mxSets := [][]int{}
 		for _, l := range ls {
 			values := strings.Split(l, " ")
 			if !(len(values[0]) >= 1 && unicode.IsDigit([]rune(values[0])[0])) {
@@ -38,20 +37,26 @@ func main() {
 			desNum, _ := strconv.ParseInt(des, 10, 64)
 			srcNum, _ := strconv.ParseInt(src, 10, 64)
 			incNum, _ := strconv.ParseInt(inc, 10, 64)
-			for m := 0; m < int(incNum); m++ {
-				nwMap[int(srcNum)+m] = int(desNum) + m
-			}
+
+			mxSet := []int{int(srcNum), int(srcNum) + int(incNum), int(desNum) - int(srcNum)}
+			mxSets = append(mxSets, mxSet)
 		}
-		maps[i] = nwMap
+		sectionMappings = append(sectionMappings, mxSets)
 	}
 
 	locs := []int{}
 	for _, s := range seedsInt {
 		next := s
-		for _, m := range maps {
-			_, ok := m[next]
-			if ok {
-				next = m[next]
+		for _, sets := range sectionMappings {
+			mapFound := false
+			for _, s := range sets {
+				min := s[0]
+				max := s[1]
+				offset := s[2]
+				if !mapFound && next >= min && next <= max {
+					next = next + offset
+					mapFound = true
+				}
 			}
 		}
 		locs = append(locs, next)
@@ -62,7 +67,6 @@ func main() {
 		if l < lowest {
 			lowest = l
 		}
-		fmt.Printf("locations %d\n", l)
 	}
 	fmt.Printf("answer: %d\n", lowest)
 }
