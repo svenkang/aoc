@@ -1,0 +1,14 @@
+seeds: 79 14 55 13
+55 - 68
+79 - 93
+
+seed-to-soil map:
+50 98 2: 98 - 100: offset-48: 50 - 52
+52 50 48: 50 - 98: offset+2: 52 - 100
+			0 - 50: offset+0: 0 - 50
+
+humidity-to-location map:
+		 0 - 56 offset0
+60 56 37: 56 - 93 offset
+56 93 4: 93 - 97 offset
+		97 - 100 offset0
