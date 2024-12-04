@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
 	"sort"
 	"strconv"
@@ -32,11 +31,34 @@ func main() {
 		return rightLocations[i] < rightLocations[j]
 	})
 
-	var sum float64
-	for i, l := range leftLocations {
-		diff := math.Abs(float64(l - rightLocations[i]))
-		sum = sum + diff
+	locMap := map[int]int{}
+	for _, l := range leftLocations {
+		v, ok := locMap[l]
+		if ok {
+			locMap[l] = v + 1
+		} else {
+			locMap[l] = 1
+		}
+	}
+	locMapRight := map[int]int{}
+	for _, l := range rightLocations {
+		v, ok := locMapRight[l]
+		if ok {
+			locMapRight[l] = v + 1
+		} else {
+			locMapRight[l] = 1
+		}
 	}
 
-	fmt.Println(int(sum))
+	var sum2 int
+	for _, l := range leftLocations {
+		vr, ok := locMapRight[l]
+		mul := 0
+		if ok {
+			mul = l * vr
+		}	
+		sum2 = sum2 + mul
+	}
+
+	fmt.Println(int(sum2))
 }
