@@ -31,9 +31,13 @@ func main() {
 
 		handComp := []rune(hand)
 		handMap := map[rune]int{}
+		hasJ := false
 		for _, label := range handComp {
 			if unicode.IsDigit(label) || unicode.IsLetter(label) {
 				c, ok := handMap[label]
+				if label == 'J' {
+					hasJ = true
+				}
 				if ok {
 					handMap[label] = c + 1
 				} else {
@@ -96,7 +100,6 @@ func main() {
 		'A': 14,
 		'K': 13,
 		'Q': 12,
-		'J': 11,
 		'T': 10,
 		'9': 9,
 		'8': 8,
@@ -106,6 +109,7 @@ func main() {
 		'4': 4,
 		'3': 3,
 		'2': 2,
+		'J': 1,
 	}
 
 	allTypes := [][][]string{high, one, two, three, fullhouse, four, five}
@@ -141,11 +145,19 @@ func main() {
 	}
 
 	fmt.Println(high)
+	fmt.Println()
 	fmt.Println(one)
+	fmt.Println()
 	fmt.Println(two)
+	fmt.Println()
 	fmt.Println(three)
+	fmt.Println()
 	fmt.Println(fullhouse)
+	fmt.Println()
 	fmt.Println(four)
+	fmt.Println()
 	fmt.Println(five)
+	fmt.Println()
 	fmt.Println(total)
+	fmt.Println()
 }
